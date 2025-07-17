@@ -85,11 +85,14 @@ button:hover {
   vertical-align: middle;
 }
 
-/* Loader styling */
 #loader {
   margin-top: 15px;
   font-size: 16px;
   color: #555;
+}
+
+.hourglass {
+  display: inline-block;
   animation: rotateHourglass 1s linear infinite;
 }
 
@@ -99,11 +102,4 @@ button:hover {
   50% { transform: rotate(180deg); }
   75% { transform: rotate(270deg); }
   100% { transform: rotate(360deg); }
-}
-
-#loader {
-  margin-top: 15px;
-  font-size: 16px;
-  color: #555;
-  animation: rotateHourglass 1s linear infinite;
 }
