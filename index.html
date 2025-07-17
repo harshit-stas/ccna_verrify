@@ -5,31 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Certificate Verification</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .verify-icon {
-      display: inline-block;
-      font-size: 1.5rem;
-      margin-right: 8px;
-    }
-
-    .loading-icon {
-      display: inline-block;
-      animation: spin 1s linear infinite;
-      font-size: 1.2rem;
-      margin-left: 8px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎓 Certificate Verification Portal</h1>
-    <input type="text" id="certInput" placeholder="Enter Certificate Number..." />
+    <h1>Verify Your Certificate</h1>
+    <input type="text" id="certInput" placeholder="Enter Certificate Number" />
     <button id="verifyBtn">Verify</button>
+    <div id="loader" class="hidden">⏳ Verifying...</div>
     <div id="result" class="card hidden"></div>
   </div>
 
@@ -38,32 +20,35 @@
     const certInput = document.getElementById("certInput");
     const verifyBtn = document.getElementById("verifyBtn");
     const resultBox = document.getElementById("result");
+    const loader = document.getElementById("loader");
 
     verifyBtn.addEventListener("click", () => {
-      const certNo = certInput.value.trim();
-
-      resultBox.innerHTML = `<p>⏳ Verifying... <span class="loading-icon">⌛</span></p>`;
-      resultBox.classList.remove("hidden", "verified");
+      const certNo = certInput.value.trim().toUpperCase();
+      resultBox.classList.add("hidden");
+      resultBox.classList.remove("verified");
+      loader.classList.remove("hidden");
 
       setTimeout(() => {
         const data = certificates[certNo];
+        loader.classList.add("hidden");
 
         if (data) {
           resultBox.innerHTML = `
             <h2><span class="verify-icon">✅</span> Verified Certificate</h2>
-            <p><strong>Name:</strong> ${data.name}</p>
-            <p><strong>Registration No:</strong> ${data.reg_no}</p>
-            <p><strong>College:</strong> ${data.college}</p>
+            <p><strong>Name:</strong> ${data.name || 'N/A'}</p>
+            <p><strong>Registration No:</strong> ${data.registration || 'N/A'}</p>
+            <p><strong>College:</strong> ${data.college || 'N/A'}</p>
             <p><strong>Issued By:</strong> Cisco</p>
-            <p><strong>Issued Date:</strong> ${data.issued_date}</p>
-            <p><strong>Last Updated:</strong> ${data.last_updated}</p>
+            <p><strong>Issued Date:</strong> ${data.issued || 'N/A'}</p>
+            <p><strong>Last Updated:</strong> ${data.updated || 'N/A'}</p>
           `;
+          resultBox.classList.remove("hidden");
           resultBox.classList.add("verified");
         } else {
           resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
-          resultBox.classList.remove("verified");
+          resultBox.classList.remove("hidden");
         }
-      }, 800); // simulate loading time
+      }, 1000);
     });
   </script>
 </body>
