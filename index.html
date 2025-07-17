@@ -12,10 +12,14 @@
     <h1>Verify Your Certificate</h1>
     <input type="text" id="certInput" placeholder="Enter Certificate Number" />
     <button id="verifyBtn">Verify</button>
-    <div id="loader" class="hidden">
+    
+    <!-- Loader (hidden initially) -->
+    <div id="loader" class="loader hidden">
       <span class="hourglass">⏳</span>
-      <span class="loading-text">Verifying...</span>
+      <span>Verifying...</span>
     </div>
+
+    <!-- Result box -->
     <div id="result" class="card hidden"></div>
   </div>
 
@@ -36,16 +40,16 @@
       const certNo = certInput.value.trim().toUpperCase();
       resultBox.classList.add("hidden");
       resultBox.classList.remove("verified");
+      loader.classList.remove("hidden");  // Show loader
 
       if (!certNo) {
+        loader.classList.add("hidden");
         showResult(`<p class="error">⚠️ Please enter a certificate number.</p>`);
         return;
       }
 
-      loader.classList.remove("hidden");
-
       setTimeout(() => {
-        loader.classList.add("hidden");
+        loader.classList.add("hidden");  // Hide loader after timeout
 
         if (typeof certificates === "undefined") {
           showResult(`<p class="error">⚠️ Certificate data failed to load.</p>`);
