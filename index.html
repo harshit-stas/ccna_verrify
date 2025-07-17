@@ -5,6 +5,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Certificate Verification</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .verify-icon {
+      display: inline-block;
+      animation: popScale 0.4s ease-out;
+      transform: scale(1);
+      font-size: 1.5rem;
+      margin-right: 8px;
+    }
+
+    @keyframes popScale {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .loading-icon {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+      font-size: 1.2rem;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -22,24 +62,29 @@
 
     verifyBtn.addEventListener("click", () => {
       const certNo = certInput.value.trim();
-      const data = certificates[certNo];
 
-      if (data) {
-        resultBox.innerHTML = `
-          <h2><span class="verify-icon">✅</span> Verified Certificate</h2>
-          <p><strong>Name:</strong> ${data.name}</p>
-          <p><strong>Registration No:</strong> ${data.reg_no}</p>
-          <p><strong>College:</strong> ${data.college}</p>
-          <p><strong>Issued By:</strong> Cisco</p>
-          <p><strong>Issued Date:</strong> ${data.issued_date}</p>
-          <p><strong>Last Updated:</strong> ${data.last_updated}</p>
-        `;
-        resultBox.classList.remove("hidden");
-        resultBox.classList.add("verified");
-      } else {
-        resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
-        resultBox.classList.remove("hidden", "verified");
-      }
+      resultBox.innerHTML = `<p>⏳ Verifying... <span class="loading-icon">⌛</span></p>`;
+      resultBox.classList.remove("hidden", "verified");
+
+      setTimeout(() => {
+        const data = certificates[certNo];
+
+        if (data) {
+          resultBox.innerHTML = `
+            <h2><span class="verify-icon">✅</span> Verified Certificate</h2>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Registration No:</strong> ${data.reg_no}</p>
+            <p><strong>College:</strong> ${data.college}</p>
+            <p><strong>Issued By:</strong> Cisco</p>
+            <p><strong>Issued Date:</strong> ${data.issued_date}</p>
+            <p><strong>Last Updated:</strong> ${data.last_updated}</p>
+          `;
+          resultBox.classList.add("verified");
+        } else {
+          resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
+          resultBox.classList.remove("verified");
+        }
+      }, 800); // simulate loading time
     });
   </script>
 </body>
