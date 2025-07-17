@@ -11,7 +11,9 @@
     <h1>Verify Your Certificate</h1>
     <input type="text" id="certInput" placeholder="Enter Certificate Number" />
     <button id="verifyBtn">Verify</button>
-    <div id="loader" class="hidden">⏳ Verifying...</div>
+    <div id="loader" class="hidden">
+      <span class="hourglass">⏳</span> Verifying...
+    </div>
     <div id="result" class="card hidden"></div>
   </div>
 
@@ -22,18 +24,36 @@
     const resultBox = document.getElementById("result");
     const loader = document.getElementById("loader");
 
-    verifyBtn.addEventListener("click", () => {
+    function showResult(message, isVerified = false) {
+      resultBox.innerHTML = message;
+      resultBox.classList.remove("hidden");
+      resultBox.classList.toggle("verified", isVerified);
+    }
+
+    function handleVerification() {
       const certNo = certInput.value.trim().toUpperCase();
       resultBox.classList.add("hidden");
       resultBox.classList.remove("verified");
+
+      if (!certNo) {
+        showResult(`<p class="error">⚠️ Please enter a certificate number.</p>`);
+        return;
+      }
+
       loader.classList.remove("hidden");
 
       setTimeout(() => {
-        const data = certificates[certNo];
         loader.classList.add("hidden");
 
+        if (typeof certificates === "undefined") {
+          showResult(`<p class="error">⚠️ Certificate data failed to load.</p>`);
+          return;
+        }
+
+        const data = certificates[certNo];
+
         if (data) {
-          resultBox.innerHTML = `
+          const html = `
             <h2><span class="verify-icon">✅</span> Verified Certificate</h2>
             <p><strong>Name:</strong> ${data.name || 'N/A'}</p>
             <p><strong>Registration No:</strong> ${data.registration || 'N/A'}</p>
@@ -42,13 +62,19 @@
             <p><strong>Issued Date:</strong> ${data.issued || 'N/A'}</p>
             <p><strong>Last Updated:</strong> ${data.updated || 'N/A'}</p>
           `;
-          resultBox.classList.remove("hidden");
-          resultBox.classList.add("verified");
+          showResult(html, true);
         } else {
-          resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
-          resultBox.classList.remove("hidden");
+          showResult(`<p class="error">❌ Certificate not found. Please check the number.</p>`);
         }
       }, 1000);
+    }
+
+    verifyBtn.addEventListener("click", handleVerification);
+
+    certInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        handleVerification();
+      }
     });
   </script>
 </body>
