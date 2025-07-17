@@ -79,7 +79,7 @@ button:hover {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .verified {
@@ -101,6 +101,7 @@ button:hover {
   vertical-align: middle;
 }
 
+/* Loader */
 #loader {
   margin-top: 15px;
   font-size: 15px;
@@ -108,7 +109,7 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .hourglass {
