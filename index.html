@@ -2,36 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Certificate Verification</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    #result { margin-top: 20px; border: 1px solid #ccc; padding: 15px; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Verify Your Certificate</h2>
-  <input type="text" id="certInput" placeholder="Enter your Certificate Number" />
-  <button onclick="verifyCertificate()">Verify</button>
-
-  <div id="result"></div>
+  <div class="container">
+    <h1>🎓 Certificate Verification Portal</h1>
+    <input type="text" id="certInput" placeholder="Enter Certificate Number..." />
+    <button id="verifyBtn">Verify</button>
+    <div id="result" class="card hidden"></div>
+  </div>
 
   <script src="certificates.js"></script>
   <script>
-    function verifyCertificate() {
-      const certNo = document.getElementById("certInput").value.trim();
+    const certInput = document.getElementById("certInput");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const resultBox = document.getElementById("result");
+
+    verifyBtn.addEventListener("click", () => {
+      const certNo = certInput.value.trim();
       const data = certificates[certNo];
 
       if (data) {
-        document.getElementById("result").innerHTML = `
+        resultBox.innerHTML = `
+          <h2>✅ Verified Certificate</h2>
           <p><strong>Name:</strong> ${data.name}</p>
-          <p><strong>College:</strong> ${data.college}</p>
           <p><strong>Registration No:</strong> ${data.reg_no}</p>
-          <p><strong>Training Duration:</strong> ${data.issued_date} to ${data.last_updated}</p>
+          <p><strong>College:</strong> ${data.college}</p>
+          <p><strong>Issued By:</strong> Cisco</p>
+          <p><strong>Issued Date:</strong> ${data.issued_date}</p>
+          <p><strong>Last Updated:</strong> ${data.last_updated}</p>
         `;
+        resultBox.classList.remove("hidden");
+        resultBox.classList.add("verified");
       } else {
-        document.getElementById("result").innerHTML = `<p style="color:red;">Certificate not found. Please check your number.</p>`;
+        resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
+        resultBox.classList.remove("hidden", "verified");
       }
-    }
+    });
   </script>
 </body>
 </html>
