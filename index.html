@@ -1,10 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Certificate Verification</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .card {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-left: 6px solid #28a745;
+      border-radius: 0.5rem;
+      background: #e6fff0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -28,17 +93,16 @@
         resultBox.innerHTML = `
           <h2>✅ Verified Certificate</h2>
           <p><strong>Name:</strong> ${data.name}</p>
-          <p><strong>Registration No:</strong> ${data.reg_no}</p>
+          <p><strong>Registration No:</strong> ${data.registration}</p>
           <p><strong>College:</strong> ${data.college}</p>
           <p><strong>Issued By:</strong> Cisco</p>
-          <p><strong>Issued Date:</strong> ${data.issued_date}</p>
-          <p><strong>Last Updated:</strong> ${data.last_updated}</p>
+          <p><strong>Issued Date:</strong> ${data.issued}</p>
+          <p><strong>Last Updated:</strong> ${data.updated}</p>
         `;
         resultBox.classList.remove("hidden");
-        resultBox.classList.add("verified");
       } else {
         resultBox.innerHTML = `<p class="error">❌ Certificate not found. Please check the number.</p>`;
-        resultBox.classList.remove("hidden", "verified");
+        resultBox.classList.remove("hidden");
       }
     });
   </script>
